@@ -7,17 +7,29 @@ let arr = []
 function adicionar(){
     if(num.value < 0 || num.value >100){
         alert(`Não é possível adicionar esse valor`)  
-        num.value = ' '  
+        limpaCaixa() 
     }else if(num.value.length ==0){
         alert(`Digite um número!`) 
-    }else {
-        arr.push(Number(num.value))
-        let item = document.createElement('option')
-        item.text = (Number(num.value))
-        select.appendChild(item)
-        num.value = ' '
-        arr.sort()
+    }else{
+        if(arr.length >=0){
+            arr.push(Number(num.value))     
+            if(arr.length > 1){
+                for(let n in arr){   
+                     if(Number(num.value) === arr[n -1]){
+                        arr.pop(n)
+                        alert("valor inválido, ou já foi adicionado")
+                        limpaCaixa()
+                        return
+                    }         
+                }
+            }
+            let item = document.createElement('option')
+            item.text = (`Valor ${Number(num.value)} adicionado`)
+            select.appendChild(item)
+            limpaCaixa()       
+        }         
     }
+    arr.sort((a,b)  =>  a-b) 
 }
 function analisar(){
     if(!(arr.length ==0)){
@@ -32,4 +44,7 @@ function analisar(){
         res.innerHTML += `<p>A média dos valores digitados é ${(arrSoma / arr.length).toFixed(1)}</p>`
         btnAdd.addEventListener('click', () => {res.innerHTML = ''})
     }    
+}
+function limpaCaixa(){
+    num.value = ''
 }
